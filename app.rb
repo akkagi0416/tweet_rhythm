@@ -27,42 +27,34 @@ class App
     end
     @tweet_counts.map {|count| count.to_f / tweets.count * 100 }
   end
-end
 
-def make_result(tweet_counts)
-  html = 
-  # '<table>
-  #   <tr><th>時間</th><th>tweet回数</th></tr>'
-  # (0..23).each do |i|
-  #   html += "<tr><td>#{i}時</td><td>" + "#" * tweet_counts[i] + "</td></tr>"
-  # end
-  # html += "</table>"
-  '<dl>'
-  (0..23).each do |i|
-    html += "<dt>#{i}時</dt><dd>"
-    html += "<div class='progress'>
-      <div class='progress-bar progress-bar-success' role='progressbar' aria-valuenow='#{tweet_counts[i]}' aria-valuemin='0' aria-valuemax='100' style='width: #{tweet_counts[i]}%'>
-        <span class='sr-only'>#{tweet_counts[i]}%</span>
-      </div>
-    </div>"
-    html += "</dd>"
+  def make_result
+    html = "<h2><span>@#{@screen_name}</span>さんのtweet頻度</h2>"
+    html += '<table>
+      <tr><th>時間</th><th>tweet頻度</th></tr>'
+    (0..23).each do |i|
+      html += "<tr><td>#{i}時</td><td>" + "#" * @tweet_counts[i] + "</td></tr>"
+    end
+    html += "</table>"
+    html
   end
-  html += '</dl>'
-  html
 end
 
 app = App.new
-p app.get_tweet_counts
+# p app.get_tweet_counts
 
 # Web part
 get '/' do
-  @result = make_result(app.get_tweet_counts)
+  app.get_tweet_counts  # akkagi0416(default)
+  @result = app.make_result
   erb :index
 end
 
 post '/' do
-  @tweet_counts = app.get_tweet_counts(params['screen_name'])
-  make_result(@tweet_counts)
+  # @tweet_counts = app.get_tweet_counts(params['screen_name'])
+  # make_result(@tweet_counts)
+  app.get_tweet_counts(params['screen_name'])
+  app.make_result
 end
 
 __END__
@@ -72,32 +64,39 @@ __END__
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,user-scalable=no,maximum-scale=1">
   <title>twitterのつぶやきで生活リズムがわかる?</title>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
   <style>
   h1{ margin: 0; }
-  dt, dd{ float: left; }
-  dt{ width: 20%; clear: both; text-align: right; padding-right: 1em; }
-  dd{ width: 70%; height: 1.6em; }
+  th, td{ white-space: nowrap; }
+  td:nth-of-type(1){ text-align: right; padding-right: 1em; }
+  td:nth-of-type(2){ color: #5cb85c; }
+  h2{ margin-bottom: 1.5em; font-size: 1em; }
+  h2 span{ padding-right: 0.2em; font-size: 1.5em; font-weight: bold; color: #d9534f; }
+  section{ margin-bottom: 3em; }
   </style>
 </head>
 <body>
 <header class="navbar navbar-default">
   <div class="container">
-    <h1 class="navbar-brand">twitterで生活リズム?</h1>
+    <h1 class="navbar-brand">twitterで生活リズムのチェック?</h1>
   </div>
 </header>
 <div class="container">
-  <div class="form-group navbar-form">
-    <div class="input-group">
-      <span class="input-group-addon">@</span>
-      <input type="text" id="screen_name" class="form-control" placeholder="akkagi0416">
+  <section>
+    <h2>@で始まるtwitter名を入力してね</h2>
+    <div class="form-group navbar-form">
+      <div class="input-group">
+        <span class="input-group-addon">@</span>
+        <input type="text" id="screen_name" class="form-control" placeholder="akkagi0416">
+      </div>
+      <button type="submit" class="btn btn-primary">Check</button>
     </div>
-    <button type="submit" class="btn btn-primary">Check</button>
-  </div>
-  <div id="result">
-  <%= @result %>
-  </div>
+  </section>
+  <section id="result">
+    <%= @result %>
+  </section>
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script> 
 <script>
