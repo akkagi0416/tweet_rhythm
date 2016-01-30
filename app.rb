@@ -3,9 +3,10 @@ require 'dotenv'
 require 'time'
 require 'sinatra'
 
-Dotenv.load
+Dotenv.load # twitter認証key取得
 
 class App
+  attr_reader :screen_name
   def initialize
     @client = Twitter::REST::Client.new do |config|
       config.consumer_key        = ENV["CONSUMER_KEY"]
@@ -53,8 +54,12 @@ end
 post '/' do
   # @tweet_counts = app.get_tweet_counts(params['screen_name'])
   # make_result(@tweet_counts)
-  app.get_tweet_counts(params['screen_name'])
-  app.make_result
+  begin
+    app.get_tweet_counts(params['screen_name'])
+    app.make_result
+  rescue Twitter::Error::NotFound
+    "<h2><span>@#{app.screen_name}</span>さんは見つかりませんでした</h2>"
+  end
 end
 
 __END__
@@ -75,6 +80,7 @@ __END__
   h2{ margin-bottom: 1.5em; font-size: 1em; }
   h2 span{ padding-right: 0.2em; font-size: 1.5em; font-weight: bold; color: #d9534f; }
   section{ margin-bottom: 3em; }
+  footer{ text-align: center; }
   </style>
 </head>
 <body>
@@ -84,20 +90,28 @@ __END__
   </div>
 </header>
 <div class="container">
-  <section>
-    <h2>@で始まるtwitter名を入力してね</h2>
-    <div class="form-group navbar-form">
-      <div class="input-group">
-        <span class="input-group-addon">@</span>
-        <input type="text" id="screen_name" class="form-control" placeholder="akkagi0416">
-      </div>
-      <button type="submit" class="btn btn-primary">Check</button>
-    </div>
-  </section>
-  <section id="result">
-    <%= @result %>
-  </section>
+  <div class="row">
+    <main class="col-xs-8">
+      <section>
+        <h2>@で始まるtwitter名を入力してね</h2>
+        <div class="form-group navbar-form">
+          <div class="input-group">
+            <span class="input-group-addon">@</span>
+            <input type="text" id="screen_name" class="form-control" placeholder="akkagi0416">
+          </div>
+          <button type="submit" class="btn btn-primary">Check</button>
+        </div>
+      </section>
+      <section id="result">
+        <%= @result %>
+      </section>
+    </main>
+    <aside class="col-xs-4">
+      <img class="img-responsive" src="http://placehold.jp/150x150.png" alt="">
+    </aside>
+  </div>
 </div>
+<footer class="container">&copy; <a href="akkagi.info">akkagi</a></footer>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script> 
 <script>
 $(function(){
