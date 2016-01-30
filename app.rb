@@ -25,18 +25,29 @@ class App
     tweets.each do |tweet|
       @tweet_counts[tweet.created_at.getlocal.hour] += 1 # 日本時間に変更
     end
-    @tweet_counts
+    @tweet_counts.map {|count| count.to_f / tweets.count * 100 }
   end
 end
 
 def make_result(tweet_counts)
   html = 
-  '<table>
-    <tr><th>時間</th><th>tweet回数</th></tr>'
+  # '<table>
+  #   <tr><th>時間</th><th>tweet回数</th></tr>'
+  # (0..23).each do |i|
+  #   html += "<tr><td>#{i}時</td><td>" + "#" * tweet_counts[i] + "</td></tr>"
+  # end
+  # html += "</table>"
+  '<dl>'
   (0..23).each do |i|
-    html += "<tr><td>#{i}時</td><td>" + "#" * tweet_counts[i] + "</td></tr>"
+    html += "<dt>#{i}時</dt><dd>"
+    html += "<div class='progress'>
+      <div class='progress-bar progress-bar-success' role='progressbar' aria-valuenow='#{tweet_counts[i]}' aria-valuemin='0' aria-valuemax='100' style='width: #{tweet_counts[i]}%'>
+        <span class='sr-only'>#{tweet_counts[i]}%</span>
+      </div>
+    </div>"
+    html += "</dd>"
   end
-  html += "</table>"
+  html += '</dl>'
   html
 end
 
@@ -65,6 +76,9 @@ __END__
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
   <style>
   h1{ margin: 0; }
+  dt, dd{ float: left; }
+  dt{ width: 20%; clear: both; text-align: right; padding-right: 1em; }
+  dd{ width: 70%; height: 1.6em; }
   </style>
 </head>
 <body>
