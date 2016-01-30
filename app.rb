@@ -19,23 +19,25 @@ class App
 
   def get_tweet_counts(screen_name = 'akkagi0416')
     @screen_name = screen_name
+    @tweet_counts = Array.new(24, 0)
+
     tweets = @client.user_timeline(@screen_name, { count: 200 } )
     tweets.each do |tweet|
       @tweet_counts[tweet.created_at.getlocal.hour] += 1 # 日本時間に変更
     end
     @tweet_counts
   end
+end
 
-  # tweet_counts = []
-  # (0..23).each {|i| tweet_counts[i] = 0 }
-
-  # tweets.each do |tweet|
-  #   tweet_counts[tweet.created_at.getlocal.hour] += 1 # 日本時間に変更
-  # end
-
-  # (0..23).each do |i|
-  #   printf "%02d %s\n", i, "#" * tweet_counts[i] 
-  # end
+def make_result(tweet_counts)
+  html = 
+  '<table>
+    <tr><th>時間</th><th>tweet回数</th></tr>'
+  (0..23).each do |i|
+    html += "<tr><td>#{i}時</td><td>" + "#" * tweet_counts[i] + "</td></tr>"
+  end
+  html += "</table>"
+  html
 end
 
 app = App.new
@@ -43,12 +45,13 @@ p app.get_tweet_counts
 
 # Web part
 get '/' do
-  @tweet_counts = tweet_counts
+  @result = make_result(app.get_tweet_counts)
   erb :index
 end
 
 post '/' do
-  params['screen_name']
+  @tweet_counts = app.get_tweet_counts(params['screen_name'])
+  make_result(@tweet_counts)
 end
 
 __END__
@@ -79,15 +82,7 @@ __END__
     <button type="submit" class="btn btn-primary">Check</button>
   </div>
   <div id="result">
-    <table>
-      <tr><th>時間</th><th>tweet回数</th></tr>
-      <% (0..23).each do |i| %>
-        <tr>
-          <td><%= i %></td>
-          <td><%= "#" * @tweet_counts[i] %></td>
-        </tr>
-      <% end %>
-    </table>
+  <%= @result %>
   </div>
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script> 
@@ -103,8 +98,8 @@ $(function(){
 
     request.done(function(data){
       console.log('ajax success');
-      console.log(data);
-      $('#result').html('<p>' + data + '</p>');
+      //console.log(data);
+      $('#result').html(data);
     }).fail(function(e){
       console.log('ajax error');
     });
