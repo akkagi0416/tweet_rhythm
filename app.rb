@@ -48,6 +48,7 @@ app = App.new
 get '/' do
   app.get_tweet_counts  # akkagi0416(default)
   @result = app.make_result
+  # @result = ""
   erb :index
 end
 
@@ -70,7 +71,7 @@ __END__
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,user-scalable=no,maximum-scale=1">
-  <title>twitterのつぶやきで生活リズムがわかる?</title>
+  <title>何時にtwitter? | twitterのつぶやきで生活リズムがわかる?</title>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
   <style>
   h1{ margin: 0; }
@@ -86,31 +87,24 @@ __END__
 <body>
 <header class="navbar navbar-default">
   <div class="container">
-    <h1 class="navbar-brand">twitterで生活リズムのチェック?</h1>
+    <h1 class="navbar-brand">何時にtwitter?</h1>
   </div>
 </header>
-<div class="container">
-  <div class="row">
-    <main class="col-xs-8">
-      <section>
-        <h2>@で始まるtwitter名を入力してね</h2>
-        <div class="form-group navbar-form">
-          <div class="input-group">
-            <span class="input-group-addon">@</span>
-            <input type="text" id="screen_name" class="form-control" placeholder="akkagi0416">
-          </div>
-          <button type="submit" class="btn btn-primary">Check</button>
-        </div>
-      </section>
-      <section id="result">
-        <%= @result %>
-      </section>
-    </main>
-    <aside class="col-xs-4">
-      <img class="img-responsive" src="http://placehold.jp/150x150.png" alt="">
-    </aside>
-  </div>
-</div>
+<main class="container">
+  <section>
+    <h2>@で始まるtwitter名を入力してね</h2>
+    <div class="form-group navbar-form">
+      <div class="input-group">
+        <span class="input-group-addon">@</span>
+        <input type="text" id="screen_name" class="form-control" placeholder="akkagi0416">
+      </div>
+      <button type="submit" class="btn btn-success">Check</button>
+    </div>
+  </section>
+  <section id="result">
+    <%= @result %>
+  </section>
+</main>
 <footer class="container">&copy; <a href="akkagi.info">akkagi</a></footer>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script> 
 <script>
