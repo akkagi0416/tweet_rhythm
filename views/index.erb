@@ -15,6 +15,16 @@
   section{ margin-bottom: 3em; }
   footer{ text-align: center; }
   </style>
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-54272662-1', 'auto');
+    ga('send', 'pageview');
+
+  </script>
 </head>
 <body>
 <header class="navbar navbar-default">
@@ -22,22 +32,52 @@
     <h1 class="navbar-brand">何時にtwitter?</h1>
   </div>
 </header>
-<main class="container">
-  <section>
-    <h2>@で始まるtwitter名を入力してね</h2>
-    <div class="form-group navbar-form">
-      <div class="input-group">
-        <span class="input-group-addon">@</span>
-        <input type="text" id="screen_name" class="form-control" placeholder="akkagi0416">
-      </div>
-      <button type="submit" class="btn btn-success">Check</button>
-    </div>
-  </section>
-  <section id="result">
-    <%= @result %>
-  </section>
-</main>
+<div class="container">
+  <div class="row">
+    <main class="col-xs-8">
+      <section>
+        <h2>@で始まるtwitter名を入力してね</h2>
+        <div class="form-inline">
+          <div class="form-group">
+            <div class="input-group">
+              <span class="input-group-addon">@</span>
+              <input type="text" id="screen_name" class="form-control" placeholder="akkagi0416">
+            </div>
+            <button type="submit" class="btn btn-success">Check</button>
+          </div>
+        </div>
+      </section>
+      <section id="result">
+        <%= @result %>
+      </section>
+    </main>
+    <aside class="col-xs-4 hidden-xs">
+      <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+      <!-- app_side -->
+      <ins class="adsbygoogle"
+           style="display:block"
+           data-ad-client="ca-pub-6018661257488318"
+           data-ad-slot="9131298582"
+           data-ad-format="auto"></ins>
+      <script>
+      (adsbygoogle = window.adsbygoogle || []).push({});
+      </script>
+    </aside>
+  </div>
+</div>
 <footer class="container">&copy; <a href="akkagi.info">akkagi</a></footer>
+<div>
+  <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+  <!-- app_footer -->
+  <ins class="adsbygoogle"
+       style="display:block"
+       data-ad-client="ca-pub-6018661257488318"
+       data-ad-slot="1608031787"
+       data-ad-format="auto"></ins>
+  <script>
+  (adsbygoogle = window.adsbygoogle || []).push({});
+  </script>
+</div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script> 
 <script>
 $(function(){
