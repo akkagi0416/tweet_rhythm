@@ -1,4 +1,8 @@
 require 'sinatra'
 require './app.rb'
 
-run Sinatra::Application
+map '/rhythm' do
+  run Sinatra::Application
+end
+
+# run Sinatra::Application

@@ -45,8 +45,8 @@ $(function(){
     var screen_name = $('#screen_name').val();
     var request = $.ajax({
       type: "POST",
-      url: "/",
-      //url: window.location.href + "/",
+      //url: "/",
+      url: window.location.href + "/",
       data:{ screen_name: screen_name }
     });
 
