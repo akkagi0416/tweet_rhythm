@@ -2,12 +2,13 @@ require 'rubygems'
 require 'twitter'
 require 'dotenv'
 require 'time'
-require 'sinatra/base'
+require 'sinatra'
+require 'logger'
 
 Dotenv.load # twitter認証key取得
 
 class App
-  attr_reader :screen_name
+  attr_reader :screen_name, :logger
   def initialize
     @client = Twitter::REST::Client.new do |config|
       config.consumer_key        = ENV["CONSUMER_KEY"]
@@ -17,6 +18,7 @@ class App
     end
     @screen_name  = nil
     @tweet_counts = Array.new(24, 0)
+    @logger       = Logger.new('log/rhythm.log')
   end
 
   def get_tweet_counts(screen_name = 'akkagi0416')
@@ -55,11 +57,16 @@ end
 post '/' do
   # @tweet_counts = app.get_tweet_counts(params['screen_name'])
   # make_result(@tweet_counts)
+  result = ""
   begin
     app.get_tweet_counts(params['screen_name'])
-    app.make_result
+    result = app.make_result
+    app.logger.info(params['screen_name'])
   rescue Twitter::Error::NotFound
-    "<h2><span>@#{app.screen_name}</span>さんは見つかりませんでした</h2>"
+    result = "<h2><span>@#{app.screen_name}</span>さんは見つかりませんでした</h2>"
+    app.logger.error(params['screen_name'])
   end
+
+  result
 end
 
