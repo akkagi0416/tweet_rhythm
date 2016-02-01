@@ -7,6 +7,7 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
   <style>
   h1{ margin: 0; }
+  .tweet_icon{ padding: 15px 15px 9px 35px; }
   th, td{ white-space: nowrap; }
   td:nth-of-type(1){ text-align: right; padding-right: 1em; }
   td:nth-of-type(2){ color: #5cb85c; }
@@ -28,30 +29,34 @@
 </head>
 <body>
 <header class="navbar navbar-default">
-  <div class="container">
-    <h1 class="navbar-brand">何時にtwitter?</h1>
+  <div class="container clearfix">
+    <h1 class="navbar-brand">いつtwitter?</h1>
+    <div class="tweet_icon pull-left">
+      <a href="https://twitter.com/share" class="twitter-share-button"{count} data-via="akkagi0416">Tweet</a>
+      <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+    </div>
   </div>
 </header>
 <div class="container">
   <div class="row">
-    <main class="col-xs-8">
+    <main class="col-xs-12 col-sm-8">
       <section>
-        <h2>@で始まるtwitter名を入力してね</h2>
+        <h2>@twitter名を入力してボタンを押してね</h2>
         <div class="form-inline">
           <div class="form-group">
             <div class="input-group">
               <span class="input-group-addon">@</span>
               <input type="text" id="screen_name" class="form-control" placeholder="akkagi0416">
             </div>
-            <button type="submit" class="btn btn-success">Check</button>
           </div>
+          <button type="submit" class="btn btn-success">Check</button>
         </div>
       </section>
       <section id="result">
         <%= @result %>
       </section>
     </main>
-    <aside class="col-xs-4 hidden-xs">
+    <aside class="col-xs-0 hidden-xs col-sm-4">
       <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
       <!-- app_side -->
       <ins class="adsbygoogle"
@@ -66,7 +71,7 @@
   </div>
 </div>
 <footer class="container">&copy; <a href="akkagi.info">akkagi</a></footer>
-<div>
+<div class="container">
   <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
   <!-- app_footer -->
   <ins class="adsbygoogle"
